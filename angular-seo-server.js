@@ -36,6 +36,9 @@ var renderHtml = function(url, cb) {
             document.addEventListener('__htmlReady__', function() {
                 window.callPhantom();
             }, false);
+            setTimeout(function() {
+                window.callPhantom();
+            }, 10000);
         });
     };
     page.open(url);
