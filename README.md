@@ -113,3 +113,4 @@ if ($args ~ _escaped_fragment_) {
     # Proxy to PhantomJS instance here
 }
 ```
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/3a55c16a191c4c8222beddcf429c2608 "githalytics.com")](http://githalytics.com/steeve/angular-seo)
