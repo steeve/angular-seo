@@ -31,6 +31,13 @@ var renderHtml = function(url, cb) {
 //    page.onConsoleMessage = function(msg, lineNum, sourceId) {
 //        console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
 //    };
+    page.onInitialized = function() {
+       page.evaluate(function() {
+            setTimeout(function() {
+                window.callPhantom();
+            }, 10000);
+        });
+    };
 
 server.listen(port, function (request, response) {
     var route = parse_qs(request.url)._escaped_fragment_;
