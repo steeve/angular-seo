@@ -59,6 +59,46 @@ function MyCtrl($scope) {
 }
 ```
 
+If you have a complicated AJAX applicaiton running, you might want to automate this proccess, and call this function on the config level.
+
+Example:
+```javascript
+var app = angular.module('myApp', ['angular-seo'])
+.config(function($routeProvider, $httpProvider){
+    $locationProvider.hashPrefix('!');
+    $routeProvider.when({...});
+
+    var $http,
+            interceptor = ['$q', '$injector', function ($q, $injector) {
+                var error;
+                function success(response) {
+                    $http = $http || $injector.get('$http');
+                    var $timeout = $injector.get('$timeout');
+                    var $rootScope = $injector.get('$rootScope');
+                    if($http.pendingRequests.length < 1) {
+                        $timeout(function(){
+                            if($http.pendingRequests.length < 1){
+                                $rootScope.htmlReady();
+                            }
+                        }, 700);//an 0.7 seconds safety interval, if there are no requests for 0.7 seconds, it means that the app is through rendering
+                    }
+                    return response;
+                }
+
+                function error(response) {
+                    $http = $http || $injector.get('$http');
+
+                    return $q.reject(response);
+                }
+
+                return function (promise) {
+                    return promise.then(success, error);
+                }
+            }];
+
+        $httpProvider.responseInterceptors.push(interceptor);
+```
+
 And that's all there is to do on the app side.
 
 
