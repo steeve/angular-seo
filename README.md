@@ -61,7 +61,8 @@ function MyCtrl($scope) {
 
 If you have a complicated AJAX applicaiton running, you might want to automate this proccess, and call this function on the config level.
 
-**Please that this is only a suggestion in order to make your life easier, and might work great with some set-ups, while not working at all with others, overall, you should try it yourself and see if it's a good fir for your needs.**
+**Please that this is only a suggestion we've came up with in order to make your life easier, and might work great with some set-ups, while not working at all with others, overall, you should try it yourself and see if it's a good fit for your needs.**
+There's alwasys the basic setup of calling $rootScope.htmlReady() from the controller.
 
 Example:
 ```javascript
