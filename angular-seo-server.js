@@ -33,16 +33,11 @@ var renderHtml = function(url, cb) {
 //    };
     page.onInitialized = function() {
        page.evaluate(function() {
-            document.addEventListener('__htmlReady__', function() {
-                window.callPhantom();
-            }, false);
             setTimeout(function() {
                 window.callPhantom();
             }, 10000);
         });
     };
-    page.open(url);
-};
 
 server.listen(port, function (request, response) {
     var route = parse_qs(request.url)._escaped_fragment_;

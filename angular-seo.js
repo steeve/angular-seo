@@ -7,9 +7,9 @@
                     $rootScope.htmlReady = function() {
                         $rootScope.$evalAsync(function() { // fire after $digest
                             setTimeout(function() { // fire after DOM rendering
-                                var evt = document.createEvent('Event');
-                                evt.initEvent('__htmlReady__', true, true);
-                                document.dispatchEvent(evt);
+                                if (typeof window.callPhantom == 'function') { 
+                                    window.callPhantom();
+                                }
                             }, 0);
                         });
                     };
