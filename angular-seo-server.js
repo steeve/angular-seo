@@ -38,6 +38,8 @@ var renderHtml = function(url, cb) {
             }, 10000);
         });
     };
+    page.open(url);
+};
 
 server.listen(port, function (request, response) {
     var route = parse_qs(request.url)._escaped_fragment_;
