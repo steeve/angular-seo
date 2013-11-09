@@ -34,7 +34,9 @@ var renderHtml = function(url, cb) {
     page.onInitialized = function() {
        page.evaluate(function() {
             setTimeout(function() {
+              if (typeof window.callPhantom === 'function') {
                 window.callPhantom();
+              }
             }, 10000);
         });
     };
