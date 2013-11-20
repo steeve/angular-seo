@@ -61,6 +61,7 @@ app.get('/', function (req, res) {
     },
     url = prefix
       + req.url.slice(1, req.url.indexOf('?'))
+      + '?phantomjs=true'
       + '#!' + decodeURIComponent(route);
 
   renderHtml(url, callback);
