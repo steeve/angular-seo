@@ -1,3 +1,4 @@
+require('newrelic');
 var app = require('express')(),
   port = process.argv[2],
   prefix = process.argv[3],
