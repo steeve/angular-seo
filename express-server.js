@@ -36,9 +36,14 @@ var renderHtml = function(url, cb) {
         });
 
       });
-//    page.onConsoleMessage = function(msg, lineNum, sourceId) {
-//        console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
-//    };
+
+//      page.onConsoleMessage = function(msg, lineNum, sourceId) {
+//          console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
+//      };
+//      page.onResourceReceived = function(response) {
+//        console.log('Response (#' + response.id + ', stage "' + response.stage + '"): ' + JSON.stringify(response));
+//      };
+
       page.set('onInitialized', function() {
         page.evaluate(function() {
           setTimeout(function() {

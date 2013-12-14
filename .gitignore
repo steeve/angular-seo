@@ -1,4 +1,4 @@
 .idea
 node_modules
 *.sh
-newrelic.js
+newrelic*
