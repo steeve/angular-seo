@@ -29,10 +29,14 @@ var renderHtml = function(url, cb) {
       page.set('onLoadFinished', function() {
         page.get('content', function (content) {
           cb(content);
+          page.release();
           page.close();
+          page = null;
           if (portCounter > 13300) {
             portCounter = 12300;
           }
+
+
         });
 
       });
