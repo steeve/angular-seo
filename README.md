@@ -49,7 +49,7 @@ requirejs.config({
 });
 ```
 
-Then you must call `$scope.htmlReady()` when you think the page is complete. This is nescessary because of the async nature of AngularJS (such as with AJAX calls).
+Then you must call `$scope.htmlReady()` when you think the page is complete. This is necessary because of the async nature of AngularJS (such as with AJAX calls).
 ```
 function MyCtrl($scope) {
     Items.query({}, function(items) {
