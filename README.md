@@ -104,7 +104,7 @@ You should then have a complete, rendered HTML output.
 Running in behind Nginx (or other)
 ==================================
 
-If course you don't want regular users to see this, only crawlers.
+Of course you don't want regular users to see this, only crawlers.
 To detect that, just look for an `_escaped_fragment_` in the query args.
 
 For instance with Nginx:
