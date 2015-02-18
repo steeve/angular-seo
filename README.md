@@ -59,6 +59,55 @@ function MyCtrl($scope) {
 }
 ```
 
+##Using the SEOControllerInterceptor Service
+If you are using the built-in $routeProvider in your app, or understand your custom router well enough, then you can also add some *magic* to your controllers so that you don't have to add ```$scope.htmlReady()``` to each one.
+This service will wrap your controller creation and provide a way for ```$scope.htmlReady()``` to be called once the controller is constructed. It also provides a mechanism for allowing controllers that perform asynchronous data requests during construction to notify the service through a $q:resolve function call on its ```$scope```.
+
+###Changes to $routeProvider controller definition
+Standard Implementation
+
+```
+$routeProvider
+    .when('/', {
+        templateUrl: 'main.html',
+        controller: 'MainController'
+    })
+    .when('/secondary', {
+        templateUrl: 'secondary.html',
+        controller: 'SecondaryController'
+    })
+    .otherwise({
+        redirectTo: '/'
+    });
+```
+
+SEOControllerInterceptor Service Implementation
+
+```
+$routeProvider
+    .when('/', {
+        templateUrl: 'main.html',
+        controller: ['$scope', 'SEOControllerInterceptor', function($scope, SEOControllerInterceptor) {
+            SEOControllerInterceptor.intercept('MainController', $scope); // The 3rd parameter can be ignored or set to false when the controller does not perform any asynchronous data initializations during construction
+        }]
+    })
+    .when('/secondary', {
+        templateUrl: 'secondary.html',
+        controller: ['$scope', 'SEOControllerInterceptor', function($scope, SEOControllerInterceptor) {
+            SEOControllerInterceptor.intercept('SecondaryController', $scope, true); // The 3rd parameter is set to true when the controller performs asynchronous data initialization during construction
+        }]
+    })
+    .otherwise({
+        redirectTo: '/'
+    });
+```
+
+###Additional code within the controller
+Within the service it will wrap the controller construction call in a ```$q``` promise. The resolve function is attached to the ```$scope``` that is passed in to newly created controller. If the controller performs any asynchronous data calls to initialize data then it will also need to call ```$scope.resolveAllData()``` once all of the data has been received. If the controller does not perform any asynchronous data calls and a falsy value was passed into the service, then the promise will be resolved immediately after the controller's constructor returns.
+Once the ```$q``` promise resolves then ```$scope.htmlReady()``` is called by the service, alleviating your need to add a call to ```$scope.htmlReady()``` to all of your controllers.
+
+
+
 And that's all there is to do on the app side.
 
 
