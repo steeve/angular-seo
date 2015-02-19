@@ -83,7 +83,7 @@ $ phantomjs --disk-cache=no angular-seo-server.js 8888 file:///path/to/index.htm
 Testing the setup
 =================
 
-Google and Bing replace `#!` (hashbang) with `?_escaped_fragment_=` so `htttp://localhost/app.html#!/route` becomes `htttp://localhost/app.html?_escaped_fragment_=/route`.
+Google and Bing replace `#!` (hashbang) with `?_escaped_fragment_=` so `http://localhost/app.html#!/route` becomes `http://localhost/app.html?_escaped_fragment_=/route`.
 
 So say you app is running on `http://localhost:8000/index.html` (works with `file://` URLs too).
 First, run PhantomJS:
