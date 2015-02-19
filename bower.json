@@ -1,0 +1,9 @@
+{
+  "name": "angular-seo",
+  "version": "0.1.0",
+  "main": "./angular-seo.js",
+  "ignore": [],
+  "dependencies": {
+    "angular": "1.3.13"
+  }
+}
