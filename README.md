@@ -156,4 +156,15 @@ if ($args ~ _escaped_fragment_) {
     # Proxy to PhantomJS instance here
 }
 ```
+
+Running using Node and Express
+==============================
+
+Running PhantomJS jobs as a daemon on the server can be very tricky. One solution is to wrap PhantomJS in a regular Node server. The Node server can be run as a daemon using [forever](https://github.com/nodejitsu/forever)
+
+To use Express, first ```npm install``` to retrieve all Node dependencies. Next run something like ```node express-server.js 8888 http://myserver.com/``` or ```forever start express-server.js 8888 http://myserver.com/```
+
+The Express server behaves very similarly to angular-seo-server.js; however, it does not at this time take any options as arguments. All PhantomJS options are hardcoded.
+
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/3a55c16a191c4c8222beddcf429c2608 "githalytics.com")](http://githalytics.com/steeve/angular-seo)
+
