@@ -43,7 +43,7 @@ var renderHtml = function(url, cb) {
 
 server.listen(port, function (request, response) {
     var queryString = parse_qs(request.url);
-    // If there is no query string then use the url, this is probably teh result of a user-agent based crawl
+    // If there is no query string then use the url, this is probably the result of a user-agent based crawl
     var route = queryString._escaped_fragment_ || request.url;
     var url = urlPrefix
       + (queryString._escaped_fragment_ ? request.url.slice(1, request.url.indexOf('?')) : '/')
