@@ -42,9 +42,11 @@ var renderHtml = function(url, cb) {
 };
 
 server.listen(port, function (request, response) {
-    var route = parse_qs(request.url)._escaped_fragment_;
+    var queryString = parse_qs(request.url);
+    // If there is no query string then use the url, this is probably the result of a user-agent based crawl
+    var route = queryString._escaped_fragment_ || request.url;
     var url = urlPrefix
-      + request.url.slice(1, request.url.indexOf('?'))
+      + (queryString._escaped_fragment_ ? request.url.slice(1, request.url.indexOf('?')) : '/')
       + '#!' + decodeURIComponent(route);
     renderHtml(url, function(html) {
         response.statusCode = 200;
