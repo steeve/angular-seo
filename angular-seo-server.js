@@ -31,11 +31,9 @@ var renderHtml = function(url, cb) {
 //    page.onConsoleMessage = function(msg, lineNum, sourceId) {
 //        console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
 //    };
-    page.onInitialized = function() {
-       page.evaluate(function() {
-            setTimeout(function() {
-                window.callPhantom();
-            }, 10000);
+    page.onLoadFinished = function(status) {
+        page.evaluate(function() {
+            window.callPhantom();
         });
     };
     page.open(url);
