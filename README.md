@@ -111,34 +111,31 @@ PhantomJS Module
 For the app to be properly rendered, you will need to run the `angular-seo-server.js` with PhantomJS.
 Make sure to disable caching:
 ```
-$ phantomjs --disk-cache=no angular-seo-server.js [port] [URL prefix]
+$ phantomjs angular-seo-server.js [port]
 ```
 
 `URL prefix` is the URL that will be prepended to the path the crawlers will try to get.
 
 Some examples:
 ```
-$ phantomjs --disk-cache=no angular-seo-server.js 8888 http://localhost:8000/myapp
-$ phantomjs --disk-cache=no angular-seo-server.js 8888 file:///path/to/index.html
+$ phantomjs angular-seo-server.js 8888 
 ```
 
 
 Testing the setup
 =================
 
-Google and Bing replace `#!` (hashbang) with `?_escaped_fragment_=` so `http://localhost/app.html#!/route` becomes `http://localhost/app.html?_escaped_fragment_=/route`.
-
-So say you app is running on `http://localhost:8000/index.html` (works with `file://` URLs too).
+So say you app is running on `http://localhost:80/index.html`
 First, run PhantomJS:
 ```
-$ phantomjs --disk-cache=no angular-seo-server.js 8888 http://localhost:8000/index.html
+$ phantomjs angular-seo-server.js 8888
 Listening on 8888...
 Press Ctrl+C to stop.
 ```
 
 Then try with cURL:
 ```
-$ curl 'http://localhost:8888/?_escaped_fragment_=/route'
+$ curl 'http://localhost:8888/route/?_escaped_fragment_='
 ```
 
 You should then have a complete, rendered HTML output.
@@ -153,7 +150,8 @@ To detect that, just look for an `_escaped_fragment_` in the query args.
 For instance with Nginx:
 ```
 if ($args ~ _escaped_fragment_) {
-    # Proxy to PhantomJS instance here
+    rewrite .* /$scheme://$host$request_uri? break;
+    proxy_pass http://localhost:8888;
 }
 ```
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/3a55c16a191c4c8222beddcf429c2608 "githalytics.com")](http://githalytics.com/steeve/angular-seo)
