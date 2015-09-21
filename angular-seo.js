@@ -8,7 +8,9 @@
                         $rootScope.$evalAsync(function() { // fire after $digest
                             setTimeout(function() { // fire after DOM rendering
                                 if (typeof window.callPhantom == 'function') { 
-                                    window.callPhantom();
+                                    window.callPhantom({
+                                        secret: 'ghostly'
+                                    });
                                 }
                             }, 0);
                         });
