@@ -9,16 +9,19 @@ var server = require('webserver').create();
 var port = parseInt(system.args[1]);
 var urlPrefix = system.args[2];
 
-var parse_qs = function(s) {
-    var queryString = {};
-    var a = document.createElement("a");
-    a.href = s;
-    a.search.replace(
-        new RegExp("([^?=&]+)(=([^&]*))?", "g"),
-        function($0, $1, $2, $3) { queryString[$1] = $3; }
-    );
-    return queryString;
-};
+function queryStringToMap(queryString) {
+    if (!queryString) { return ''; }
+
+    return queryString.split('&').reduce(function(memo, fragment) {
+         var preKey = fragment.split('=')[0];
+         var preVal = fragment.split('=')[1];
+         var key = preKey.replace('?', '');
+         var val = preVal.replace('\/', '');
+
+         memo[key] = val;
+         return memo;
+    }, {});
+}
 
 var renderHtml = function(url, cb) {
     var page = require('webpage').create();
@@ -42,10 +45,16 @@ var renderHtml = function(url, cb) {
 };
 
 server.listen(port, function (request, response) {
-    var route = parse_qs(request.url)._escaped_fragment_;
-    var url = urlPrefix
-      + request.url.slice(1, request.url.indexOf('?'))
-      + '#!' + decodeURIComponent(route);
+    var qLoc = request.url.indexOf('?');
+    var query = qLoc !== -1 ?
+      request.url.slice(qLoc, request.url.length) :
+      '';
+
+    var preQuery = request.url.slice(0, qLoc);
+    var route = queryStringToMap(query);
+    var fragment = route._escaped_fragment_ || '';
+    var url = urlPrefix + preQuery + fragment;
+
     renderHtml(url, function(html) {
         response.statusCode = 200;
         response.write(html);
