@@ -51,7 +51,7 @@ server.listen(port, function (request, response) {
 
     var preQuery = request.url.slice(0, qLoc);
     var route = queryStringToMap(query);
-    var fragment = route._escaped_fragment_;
+    var fragment = route._escaped_fragment_ || '';
     var url = urlPrefix + preQuery + fragment;
 
     renderHtml(url, function(html) {
