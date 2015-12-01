@@ -10,10 +10,11 @@ var port = parseInt(system.args[1]);
 var urlPrefix = system.args[2];
 
 function queryStringToMap(queryString) {
-    return queryString.split('&').reduce(function(memo, pair) {
-         var index = pair.split('=')[0].indexOf('?');
-         var key = index === -1 ? pair.split('=')[0] : pair.split('=')[0].replace('\/\?', '');
-         var value = pair.split('=')[1];
+    return queryString.split('&').reduce(function(memo, fragment) {
+         var preKey = fragment.split('=')[0];
+         var value = fragment.split('=')[1];
+         var key = preKey.replace('\/\?', '');
+
          memo[key] = value;
          return memo;
     }, {});
