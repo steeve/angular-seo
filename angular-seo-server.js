@@ -14,10 +14,11 @@ function queryStringToMap(queryString) {
 
     return queryString.split('&').reduce(function(memo, fragment) {
          var preKey = fragment.split('=')[0];
-         var value = fragment.split('=')[1];
-         var key = preKey.replace('\/\?', '');
+         var preVal = fragment.split('=')[1];
+         var key = preKey.replace('?', '');
+         var val = preVal.replace('\/', '');
 
-         memo[key] = value;
+         memo[key] = val;
          return memo;
     }, {});
 }
