@@ -10,6 +10,8 @@ var port = parseInt(system.args[1]);
 var urlPrefix = system.args[2];
 
 function queryStringToMap(queryString) {
+    if (!queryString) { return ''; }
+
     return queryString.split('&').reduce(function(memo, fragment) {
          var preKey = fragment.split('=')[0];
          var value = fragment.split('=')[1];
@@ -42,11 +44,15 @@ var renderHtml = function(url, cb) {
 };
 
 server.listen(port, function (request, response) {
-    var route = queryStringToMap(request.url)._escaped_fragment_;
-
-    var url = urlPrefix
-      + request.url.slice(1, request.url.indexOf('?'))
-      + decodeURIComponent(route);
+    console.log(request.url);
+    var qLoc = request.url.indexOf('?');
+    var query = request.url.slice(qLoc, request.url.length);
+    var preQuery = request.url.slice(1, qLoc);
+    var route = queryStringToMap(request.url);
+    var fragment = route._escaped_fragment;
+    var url = urlPrefix + 
+      + preQuery
+      + (fragment || '');
 
     renderHtml(url, function(html) {
         response.statusCode = 200;
