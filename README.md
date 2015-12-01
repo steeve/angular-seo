@@ -64,7 +64,29 @@ If you have a complicated AJAX applicaiton running, you might want to automate t
 **Please that this is only a suggestion we've came up with in order to make your life easier, and might work great with some set-ups, while not working at all with others, overall, you should try it yourself and see if it's a good fit for your needs.**
 There's alwasys the basic setup of calling $rootScope.htmlReady() from the controller.
 
-Example:
+Example (Angular 1.3):
+```javascript
+var interceptor = ['$q', '$injector', '$timeout', '$rootScope', function($q, $injector, $timeout, $rootScope) {
+    return {
+      response: function(resp) {
+          var $http = $injector.get('$http');
+          if (!$http.pendingRequests.length) {
+              $timeout(function() {
+                  if (!$http.pendingRequests.length) {
+                      $rootScope.htmlReady();
+                  }
+              }, 700); // Use .7s as safety interval
+            }
+            return resp;
+        }
+    };
+}];
+
+$httpProvider.interceptors.push(interceptor);
+```
+
+
+Example (Angular 1.2):
 ```javascript
 var app = angular.module('myApp', ['angular-seo'])
 .config(function($routeProvider, $httpProvider){
